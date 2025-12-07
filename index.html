@@ -9,30 +9,30 @@
     body {
         margin: 0;
         padding: 0;
-        background: #ffdde1;
+        background: #ffe6f2;
         font-family: 'Poppins', sans-serif;
-        overflow-x: hidden;
         text-align: center;
+        overflow-x: hidden;
     }
 
     .container {
-        padding: 30px 15px;
-        margin-top: 120px;
+        padding: 30px 20px;
+        margin-top: 80px;
     }
 
     h1 {
         font-size: 2rem;
         color: #ff2d75;
-        animation: fadeIn 2s ease;
+        animation: fadeIn 1.5s ease-in-out;
     }
 
     .btn {
         margin-top: 20px;
-        padding: 15px 25px;
+        padding: 14px 25px;
         background: #ff2d75;
-        color: #fff;
+        color: white;
         border: none;
-        border-radius: 50px;
+        border-radius: 40px;
         font-size: 1.1rem;
         cursor: pointer;
         animation: pulse 2s infinite;
@@ -40,168 +40,207 @@
 
     @keyframes pulse {
         0% { transform: scale(1); }
-        50% { transform: scale(1.06); }
+        50% { transform: scale(1.07); }
         100% { transform: scale(1); }
     }
 
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
+        from { opacity: 0; transform: translateY(25px); }
         to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MESSAGE CARD */
+    .message-box {
+        width: 85%;
+        background: white;
+        margin: 40px auto;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+        display: none;
+        animation: fadeIn 1.3s ease-in-out;
+    }
+
+    .message-box p {
+        font-size: 1.1rem;
+        color: #444;
+        line-height: 1.6;
     }
 
     /* Balloons */
     .balloon {
         position: fixed;
-        bottom: -150px;
-        width: 40px;
-        height: 55px;
-        background: red;
-        border-radius: 80%;
-        animation: floatUp 6s linear infinite;
+        bottom: -120px;
+        width: 45px;
+        height: 60px;
+        border-radius: 50%;
+        animation: flyUp 7s linear infinite;
         opacity: 0.9;
         z-index: 5;
     }
 
-    @keyframes floatUp {
-        0% { transform: translateY(0) rotate(0deg); }
-        100% { transform: translateY(-120vh) rotate(10deg); }
+    @keyframes flyUp {
+        0% { transform: translateY(0) translateX(0); }
+        100% { transform: translateY(-120vh) translateX(10px); }
     }
 
-    /* Confetti */
+    /* CONFETTI */
     .confetti {
         position: fixed;
-        width: 10px;
-        height: 10px;
-        animation: fall 4s linear infinite;
+        width: 9px;
+        height: 9px;
+        animation: fall 3.5s linear infinite;
         z-index: 6;
     }
 
     @keyframes fall {
         0% { transform: translateY(-50px) rotate(0deg); }
-        100% { transform: translateY(110vh) rotate(360deg); }
+        100% { transform: translateY(110vh) rotate(280deg); }
     }
 
-    /* Fireworks */
-    canvas#fireworks {
+    /* FIREWORKS */
+    canvas {
         position: fixed;
         top: 0;
         left: 0;
-        width: 100vw;
-        height: 100vh;
+        z-index: 9;
         pointer-events: none;
-        z-index: 10;
     }
 
 </style>
 </head>
 <body>
 
+<!-- FIREWORK CANVAS -->
 <canvas id="fireworks"></canvas>
 
 <div class="container">
     <h1>🎂 Happy Birthday My Love ❤️</h1>
-    <button class="btn" onclick="startSurprise()">Click for Surprise 🎁</button>
+    <button class="btn" onclick="startShow()">Start Surprise 🎁</button>
 </div>
 
+<!-- MESSAGE BOX -->
+<div class="message-box" id="msgBox">
+    <p>
+        My love... ❤️<br><br>
+        On your special day, I just want to tell you something simple—  
+        *you are the best thing that has ever happened to me.*  
+        Your smile, your voice, your presence… everything about you makes my world brighter.  
+        I’m so grateful that I get to love you.  
+        Happy Birthday, my beautiful girl. 🎂💖  
+    </p>
+</div>
+
+<!-- MUSIC -->
 <audio id="music" src="https://files.catbox.moe/3n6p6k.mp3"></audio>
 
 <script>
-/* -------------------------------
-   🎈 Create Flying Balloons
--------------------------------- */
+/* ---------------------------------------------------------
+   🎈 CREATE BALLOONS (SMOOTH)
+--------------------------------------------------------- */
 function createBalloons() {
-    for (let i = 0; i < 15; i++) {
-        let b = document.createElement("div");
+    for (let i = 0; i < 12; i++) {
+        const b = document.createElement("div");
         b.classList.add("balloon");
 
-        const colors = ["#ff5e78", "#ffcf4a", "#7ed957", "#4dadff", "#bc7bff"];
+        const colors = ["#ff4d6d", "#ffb830", "#6ede8a", "#5ab0ff", "#c77dff"];
         b.style.background = colors[Math.floor(Math.random() * colors.length)];
 
         b.style.left = Math.random() * 100 + "vw";
-        b.style.animationDuration = 4 + Math.random() * 4 + "s";
+        b.style.animationDuration = 5 + Math.random() * 4 + "s";
 
         document.body.appendChild(b);
 
-        setTimeout(() => b.remove(), 8000);
+        setTimeout(() => b.remove(), 9000);
     }
 }
 
-/* -------------------------------
-   🎉 Confetti
--------------------------------- */
+/* ---------------------------------------------------------
+   🎉 CONFETTI (Smooth Falling)
+--------------------------------------------------------- */
 function createConfetti() {
-    for (let i = 0; i < 60; i++) {
-        let c = document.createElement("div");
+    for (let i = 0; i < 45; i++) {
+        const c = document.createElement("div");
         c.classList.add("confetti");
 
-        const colors = ["#ff2d75", "#ffcf4a", "#7ed957", "#4dadff", "#b84dff"];
+        const colors = ["#ff2d75", "#ffd93d", "#71e271", "#4db5ff", "#9d4edd"];
         c.style.background = colors[Math.floor(Math.random() * colors.length)];
-
         c.style.left = Math.random() * 100 + "vw";
         c.style.animationDuration = 2 + Math.random() * 3 + "s";
 
         document.body.appendChild(c);
 
-        setTimeout(() => c.remove(), 5000);
+        setTimeout(() => c.remove(), 4500);
     }
 }
 
-/* -------------------------------
-   🎆 Fireworks Canvas Animation
--------------------------------- */
+/* ---------------------------------------------------------
+   🎆 COLORFUL FIREWORKS (Smooth Canvas)
+--------------------------------------------------------- */
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+function resizeCanvas() {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+}
+resizeCanvas();
+addEventListener("resize", resizeCanvas);
+
+function randomColor() {
+    const colors = ["#ff2d75","#ffb830","#6ede8a","#4db5ff","#c77dff"];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
 
 function firework() {
     const x = Math.random() * canvas.width;
-    const y = Math.random() * canvas.height / 2;
+    const y = (Math.random() * canvas.height) / 2;
 
     for (let i = 0; i < 40; i++) {
         let angle = (Math.PI * 2 * i) / 40;
-        let radius = 2 + Math.random() * 3;
+        let speed = 2 + Math.random() * 3;
 
-        let vx = Math.cos(angle) * radius;
-        let vy = Math.sin(angle) * radius;
+        let dx = Math.cos(angle) * speed;
+        let dy = Math.sin(angle) * speed;
 
-        animateSpark(x, y, vx, vy);
+        drawSpark(x, y, dx, dy, randomColor());
     }
 }
 
-function animateSpark(x, y, vx, vy) {
-    let ttl = 60;
+function drawSpark(x, y, dx, dy, color) {
+    let life = 60;
 
     function animate() {
-        ctx.fillStyle = "rgba(255,255,255,0.9)";
+        ctx.fillStyle = color;
         ctx.fillRect(x, y, 3, 3);
 
-        x += vx;
-        y += vy;
+        x += dx;
+        y += dy;
+        dx *= 0.97;
+        dy *= 0.97;
+        dy += 0.04;
 
-        vx *= 0.98;
-        vy *= 0.98;
-        vy += 0.05;
-
-        ttl--;
-        if (ttl > 0) requestAnimationFrame(animate);
+        life--;
+        if (life > 0) requestAnimationFrame(animate);
     }
     animate();
 }
 
-setInterval(firework, 800);
+setInterval(firework, 900);
 
-/* -------------------------------
-   🎁 Surprise Start
--------------------------------- */
-function startSurprise() {
+/* ---------------------------------------------------------
+   🎁 MAIN SURPRISE
+--------------------------------------------------------- */
+function startShow() {
     document.getElementById("music").play();
+
+    document.getElementById("msgBox").style.display = "block";
+
     createBalloons();
     createConfetti();
 
-    setInterval(createBalloons, 4000);
-    setInterval(createConfetti, 2500);
+    setInterval(createBalloons, 4500);
+    setInterval(createConfetti, 3000);
 }
 </script>
 
